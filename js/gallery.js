@@ -1,4 +1,4 @@
-// requestAnim shim layer by Paul Irish
+/// requestAnim shim layer by Paul Irish
     window.requestAnimFrame = (function(){
       return  window.requestAnimationFrame       || 
               window.webkitRequestAnimationFrame || 
@@ -33,18 +33,36 @@ function animate() {
 /************* DO NOT TOUCH CODE ABOVE THIS LINE ***************/
 
 function swapPhoto() {
-	//Add code here to access the #slideShow element.
-	//Access the img element and replace its source
-	//with a new image from your images array which is loaded 
-	//from the JSON string
+	if (mCurrentIndex >= mImages.length) {
+		mCurrentIndex = 0;
+	}
+else (mCurrentIndex < 0) {
+		mCurrentIndex = mImages.length[12];
+}
+mLastFrameTime = 0;
+	document.getElementById('photo').src = mImages[mCurrentIndex];
+	var location = document.getElementsByClassName('location')[0].innerHTML = "Location:" + mImages[mCurrentIndex].location;
+	var description = document.getElementsByClassName('description')[0].innerHTML = "Description:" + mImages[mCurrentIndex].description;
+	var date = document.getElementsByClassName('date')[0].innerHTML = "Date" + mImages[mCurrentIndex].date;
+
 	console.log('swap photo');
 }
-
 // Counter for the mImages array
 var mCurrentIndex = 0;
 
 // XMLHttpRequest variable
 var mRequest = new XMLHttpRequest();
+xhttp.onreadystatechange = function() {
+	if (this.readyState == 4 && this.status == 200) {
+			mJson = JSON.parse(mRequest.reponseText);
+ }
+};
+xhttp.open("GET", mUrl, true);
+xhttp.send();
+
+iterateJSON();
+}
+
 
 // Array holding GalleryImage objects (see below).
 var mImages = [];
@@ -67,10 +85,11 @@ function makeGalleryImageOnloadCallback(galleryImage) {
 }
 
 $(document).ready( function() {
-	
+
+}
+
 	// This initially hides the photos' metadata information
 	$('.details').eq(0).hide();
-	
 });
 
 window.addEventListener('load', function() {
@@ -79,15 +98,26 @@ window.addEventListener('load', function() {
 
 }, false);
 
+$(document).ready( function():
+
+
+
 function GalleryImage() {
 	//implement me as an object to hold the following data about an image:
 	function GalleryImage(location, description, date, img) {
-
-		this.imgLocation = location;
-		
-		this.description = description;
-		
-		this.date = date;
-		
-    		this.img = img ;
+    this.imgLocation = location;
+    this.description = description;
+    this.date = date;
+    this.imgPath = img;
 }
+
+function iterateJSON(){
+	for (x = 0, x < mJson.length, x++){
+		 mImages[x] = new GalleryImage(){
+			mImages[x].location = mJson.images[x].imgLocation;
+			mImages[x].description = mJson.images[x].description;
+			mImages[x].date = mJson.images[x].date;
+			mImages[x].img = mJson.images[x].imgPath;
+		}
+ }
+};
