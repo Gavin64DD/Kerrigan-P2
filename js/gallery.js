@@ -1,4 +1,4 @@
-/// requestAnim shim layer by Paul Irish
+// requestAnim shim layer by Paul Irish
     window.requestAnimFrame = (function(){
       return  window.requestAnimationFrame       || 
               window.webkitRequestAnimationFrame || 
@@ -72,7 +72,7 @@ var mJson;
 
 // URL for the JSON to load by default
 // Some options for you are: images.json, images.short.json; you will need to create your own extra.json later
-var mUrl = '../image.json';
+var mUrl = '/image.json';
 
 
 //You can optionally use the following function as your event callback for loading the source of Images from your json data (for HTMLImageObject).
@@ -111,13 +111,12 @@ function GalleryImage() {
     this.imgPath = img;
 }
 
-function iterateJSON(){
-	for (x = 0, x < mJson.length, x++){
-		 mImages[x] = new GalleryImage(){
+function iterateJSON() {
+	for (x = 0; x < mJson.images.length; x++) {
+			mImages[x] = new GalleryImage();
 			mImages[x].location = mJson.images[x].imgLocation;
 			mImages[x].description = mJson.images[x].description;
 			mImages[x].date = mJson.images[x].date;
 			mImages[x].img = mJson.images[x].imgPath;
-		}
- }
+	}
 };
