@@ -75,7 +75,7 @@ function fetchJSON() {
 mRequest.onreadystatechange = function() {
 	if (this.readyState === 4 && this.status === 200) {
 		 mJson = JSON.parse(mRequest.responseText);
-		 iterateJSON();
+		 iterateJSON(mJson);
 	}
 };
 mRequest.open("GET", mUrl, true);
@@ -91,43 +91,28 @@ mImages.push(galleryImage);
 }
 }
 
-	$(document).ready( function() {
-fetchJSON();
-
-$("#nextPhoto").click(function(){
-	swapPhoto();
-});
-});
-
-$(document).ready(function(){
-$("#prevPhoto").click(function(){
-	mCurrentIndex -= 2;
-	swapPhoto();
-});
-
-$("#nextPhoto").click(function () {
-	swapPhoto();
-});
-
-$("#prevPhoto").click(function () {
-	mCurrentIndex -= 2;
-	swapPhoto();
-});
-}
-
 $(document).ready( function() {
-const json = new URLSearchParams(location.search);
-for (const value of json.values()) {
-	console.log(value);
-	mUrl = json;
-	if (mUrl === undefined) {
-			mUrl = images.json;
-	};
-}
-request();
+	fetchJSON();
 
-});
-}
+	$("#nextPhoto").click(function(){
+		swapPhoto();
+	});
+
+	$("#prevPhoto").click(function(){
+		mCurrentIndex -= 2;
+		swapPhoto();
+	});
+
+	const urlParams = new URLSearchParams(window.location.search);
+
+	  for (const [key, value] of urlParams) {
+	      console.log(`${key}:${value}`);
+	      mUrl = value;
+	  }
+
+	if (mUrl === undefined) {
+		mUrl = "images.json";
+	};
 });
 
 window.addEventListener('load', function() {
@@ -144,7 +129,7 @@ mImages[x].location = mJson.images[x].imgLocation;
 mImages[x].description = mJson.images[x].description;
 mImages[x].date = mJson.images[x].date;
 mImages[x].img = mJson.images[x].imgPath;
-};
+}
 };
 
 function GalleryImage() {
